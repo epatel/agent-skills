@@ -113,14 +113,14 @@ Keep it tight. Each section points at the deeper sub-skill for elaboration; this
 
 ## Anti-patterns to refuse
 
+These are the *sequencing* traps. The discipline-level ones (leaking the internal collection, junk-drawer modules, allowing every transition, etc.) live in the sub-skills' own anti-pattern lists — don't duplicate them here.
+
 - **Skipping phase 0 because "we have tests already."** Existing tests are usually unit tests of the internals you're about to delete — they'll break in phase 3 even when behavior is preserved, giving you false signal. Audit them; if they bind to internals, write seam-level ones anyway.
 - **Treating phase 0 as a step you can defer.** It's a gate. If characterization tests can't be written, the refactor is unsafe to start — fix that first, don't push through.
 - **Doing all three phases at once in one PR.** The migration must be incremental — introduce alongside, migrate in batches, then delete. A 200-file rewrite is unreviewable and ships broken.
 - **Skipping phase 2 because "the lifecycle is obvious."** If it were obvious, the booleans wouldn't be tangled. Write the table; the act of filling it in is where the bugs surface.
 - **Leaving a `legacy` escape hatch on the new module.** A `getRawState()` or `mutateInternals()` operation defeats every preceding phase. If a caller needs something the API doesn't expose, that need is the next operation — add it intentionally or push the caller's logic into the module.
-- **Re-exporting internals "for tests."** Tests use the public API. If a test needs an internal, the API is missing an observation operation, or the test is testing the wrong thing.
 - **Fanning out beyond the one concept.** Mid-refactor it's tempting to also tighten up `Customer` while you're in there. Don't. Finish this concept first; queue the next one.
-- **Renaming without behavior change.** If the operations are just the old free functions with `entity.` prefixed, you've moved code, not encapsulated it. Operations should enforce invariants and reject illegal moves; if they only forward arguments, the encapsulation is fake.
 
 ## Quick mode
 
