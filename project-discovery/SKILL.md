@@ -14,21 +14,25 @@ Generate a markdown digest plus a YAML lookup index for any codebase, optimized 
 
 ## How to run
 
+Preflight: the tool lives in the `words-collector` repo. If the interpreter below is missing, stop and tell the user to restore it (re-clone `~/Development/claude/words-collector` and recreate its `venv`) — do not improvise a substitute.
+
 ```bash
-/Users/epatel/Development/claude/words-collector/venv/bin/python \
-  /Users/epatel/Development/claude/words-collector/extract.py \
+WC=/Users/epatel/Development/claude/words-collector
+OUT=${TMPDIR:-/tmp}/wc-$$
+"$WC/venv/bin/python" \
+  "$WC/extract.py" \
   <ROOT> \
-  /tmp/wc-index.yaml \
+  "$OUT-index.yaml" \
   --symbols-only --internal-only \
-  --summary /tmp/wc-summary.md
+  --summary "$OUT-summary.md"
 ```
 
-`<ROOT>` defaults to the current working directory if the user didn't specify a path.
+`<ROOT>` defaults to the current working directory if the user didn't specify a path. `$OUT` embeds the shell PID so concurrent sessions don't clobber each other's output; remember the resolved paths for follow-up queries.
 
 ## What you get
 
-- `/tmp/wc-summary.md` (~2–10k tokens) — the digest. Read this and present its contents to the user.
-- `/tmp/wc-index.yaml` — full per-symbol index keyed by name with `defined`/`called` lists. Use as a lookup table for follow-up "where is X defined / called" questions: grep, `yq`, or read directly.
+- `$OUT-summary.md` (~2–10k tokens) — the digest. Read this and present its contents to the user.
+- `$OUT-index.yaml` — full per-symbol index keyed by name with `defined`/`called` lists. Use as a lookup table for follow-up "where is X defined / called" questions: grep, `yq`, or read directly.
 
 ## Summary sections
 
