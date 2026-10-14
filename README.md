@@ -45,7 +45,7 @@ Claude Code loads skills from `~/.claude/skills/`. To install one skill, make a 
    ```
 3. Start a new Claude Code session. Claude reads skills at startup.
 
-To install every skill, repeat step 2 for each directory. To use a skill in one project only, link it into `.claude/skills/` inside that project.
+To install every skill, repeat step 2 for each directory. To use a skill in one project only, copy its directory into `.claude/skills/` inside that project and commit it. Copy rather than link: a link points into your home directory and breaks for collaborators and fresh clones.
 
 ## Add a skill
 

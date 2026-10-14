@@ -14,18 +14,21 @@ Generate a markdown digest plus a YAML lookup index for any codebase, optimized 
 
 ## How to run
 
-Preflight: the tool lives in the `words-collector` repo. If the interpreter below is missing, stop and tell the user to restore it (re-clone `~/Development/claude/words-collector` and recreate its `venv`) — do not improvise a substitute.
+The extractor ships with this skill in `scripts/`. Set `SKILL` to this skill's base directory (the directory containing this `SKILL.md`). Its dependencies go in a venv under the user cache — never into the system Python, and never inside the skill directory, which may be committed to a project.
 
 ```bash
-WC=/Users/epatel/Development/claude/words-collector
+SKILL=<this skill's base directory>
+VENV=${XDG_CACHE_HOME:-$HOME/.cache}/project-discovery/venv
+[ -x "$VENV/bin/python" ] || { python3 -m venv "$VENV" && "$VENV/bin/pip" install -q -r "$SKILL/scripts/requirements.txt"; }
 OUT=${TMPDIR:-/tmp}/wc-$$
-"$WC/venv/bin/python" \
-  "$WC/extract.py" \
+"$VENV/bin/python" -I "$SKILL/scripts/extract.py" \
   <ROOT> \
   "$OUT-index.yaml" \
   --symbols-only --internal-only \
   --summary "$OUT-summary.md"
 ```
+
+The first run creates the venv and installs tree-sitter (needs network, ~30s); later runs reuse it. If the install fails, report the error to the user rather than improvising a substitute tool.
 
 `<ROOT>` defaults to the current working directory if the user didn't specify a path. `$OUT` embeds the shell PID so concurrent sessions don't clobber each other's output; remember the resolved paths for follow-up queries.
 
