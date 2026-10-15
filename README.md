@@ -33,19 +33,24 @@ Claude reads the `description` field in each `SKILL.md` to decide when a skill a
 
 ## Install
 
-Claude Code loads skills from `~/.claude/skills/`. To install one skill, make a link to it:
+Install skills per project. A project skill lives in `.claude/skills/` inside the repository and is committed with it. Then every collaborator, worktree, and fresh clone gets the same version, and the skill triggers only in projects where it applies.
 
-1. Change to the skill directory of Claude Code.
+1. Go to the root of the project.
+2. Copy the skills that the project needs.
    ```sh
-   cd ~/.claude/skills
+   SRC=$(mktemp -d)
+   git clone --depth 1 https://github.com/epatel/agent-skills.git "$SRC"
+   mkdir -p .claude/skills
+   cp -R "$SRC/focused-refactor" .claude/skills/
    ```
-2. Link the skill you want.
-   ```sh
-   ln -s ~/Development/claude/agent-skills/state-machines .
-   ```
-3. Start a new Claude Code session. Claude reads skills at startup.
+3. Commit `.claude/skills/`.
+4. Use the skill. Skills live-reload, so the running session sees it. If `.claude/skills/` did not exist when the session started, run `/reload-skills` first.
 
-To install every skill, repeat step 2 for each directory. To use a skill in one project only, copy its directory into `.claude/skills/` inside that project and commit it. Copy rather than link: a link points into your home directory and breaks for collaborators and fresh clones.
+Copy, do not link. A link points into your home directory and breaks for collaborators and fresh clones. Install only the skills that match the work of the project. Each installed skill puts its description into every session of that project.
+
+The setup at https://ai.memention.net/setup does these steps for you and records each skill as `skill:<name>` so that a later refresh can update it.
+
+A personal install in `~/.claude/skills/` loads the skill in every project on the machine and is not shared. Use it only for a skill that you want everywhere and that no collaborator needs.
 
 ## Add a skill
 

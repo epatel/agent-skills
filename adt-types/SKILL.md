@@ -1,6 +1,6 @@
 ---
 name: adt-types
-description: Turn anemic data structures whose fields are read and written directly across the codebase into Abstract Data Types — types defined by their *operations*, with representation hidden behind a small interface and invariants enforced inside. Use when callers reach into a struct's fields, when invariants are re-checked at every call site, when changing the internal representation would ripple through the codebase, or when you see "anemic" records carrying logic that lives in their callers. Skip for transparent data containers (DTOs, value objects, on-the-wire payloads) where representation IS the contract.
+description: Turn anemic data structures whose fields are read and written directly across the codebase into Abstract Data Types — types defined by their *operations*, with representation hidden behind a small interface and invariants enforced inside. Use when callers reach into a struct's fields, when invariants are re-checked at every call site, when changing the internal representation would ripple through the codebase, or when you see "anemic" records carrying logic that lives in their callers. Skip for transparent data containers (DTOs, on-the-wire payloads, value objects without invariants) where representation IS the contract.
 ---
 
 # Abstract Data Types

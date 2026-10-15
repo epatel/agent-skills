@@ -45,17 +45,18 @@ Bad: "Refactored the auth module." Good: "All login flows route through `AuthSer
 
 Starting from each success criterion, repeatedly ask: **"What must be true immediately before this is true?"** Keep asking until you hit something that is true today or is a trivial first step.
 
-Build a tree (or DAG if branches converge). Nodes are *states*, not actions. Example:
+Build a tree (or DAG if branches converge). Nodes are *states*, not actions. Arrows point from a precondition to the state it enables. Example:
 
-```
-Success: Users can log in via SSO
-  ← SSO provider returns valid tokens for our app
-    ← App is registered with provider + secrets in vault
-      ← Vault entry exists (today: doesn't)
-    ← Callback route validates tokens
-      ← JWT verification library wired up (today: not installed)
-  ← Legacy login still works during cutover
-    ← Feature flag gates the new path (today: flag doesn't exist)
+```mermaid
+graph RL
+    S["Users can log in via SSO"]
+    T["SSO provider returns valid tokens for our app"] --> S
+    L["Legacy login still works during cutover"] --> S
+    R["App registered with provider + secrets in vault"] --> T
+    C["Callback route validates tokens"] --> T
+    V["Vault entry exists (today: doesn't)"] --> R
+    J["JWT verification library wired up (today: not installed)"] --> C
+    F["Feature flag gates the new path (today: flag doesn't exist)"] --> L
 ```
 
 Two rules that keep this honest:

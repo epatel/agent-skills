@@ -24,7 +24,7 @@ Skip for:
 - Independent flags (`isFavorite`, `isPinned`, `isMuted`) that compose freely — they're orthogonal toggles, not states.
 - Throwaway scripts.
 
-This skill is complementary to `adt-types`. ADT models the *shape* of each state's data; state machines model the *transitions* between states. For complex lifecycles you usually want both: an ADT for the variants, a transition function for the moves.
+This skill is complementary to `adt-types`. State machines model the *transitions* between states; `adt-types` hides the representation (including the state field) behind operations, so no caller can bypass the transition function. For complex lifecycles you usually want both — `focused-refactor` sequences them.
 
 ## The method
 

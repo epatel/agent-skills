@@ -45,13 +45,14 @@ Look for: cycles, fan-in (modules everyone imports), fan-out (modules that impor
 
 State the dependency rule explicitly. The classic shape is three or four layers, each only allowed to import from layers *below* (or "more inward"):
 
+```mermaid
+graph TD
+    infra["infra — db, http, fs, third-party"] --> app["application — use cases, orchestration"]
+    infra --> domain["domain — pure rules, value objects, ADTs"]
+    app --> domain
 ```
-infra (db, http, fs, third-party)   ← may import app, domain
-   ↑
-application (use cases, orchestration)  ← may import domain
-   ↑
-domain (pure rules, value objects, ADTs)  ← imports nothing project-internal
-```
+
+Arrows mean "may import". `domain` imports nothing project-internal.
 
 Other shapes work — feature modules with an explicit "shared kernel," ports-and-adapters, etc. — but the rule is the same: pick a direction and *enforce it*. Without enforcement, layers decay back into mush within months.
 
