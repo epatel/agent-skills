@@ -15,6 +15,7 @@ Target: the project at `[path]` if given, else the current working directory.
 
 - **Project-local files: apply updates directly.** Surgical edits, smallest diff that fixes the finding. Never rewrite a file wholesale when editing sections will do.
 - **Global files (`~/.claude/skills/`, `~/.claude/CLAUDE.md`, `~/.claude/agents/`, `~/.claude/settings.json`): read-only.** Findings go into an update plan (Phase 4). Never edit, move, or delete anything under `~/.claude/` — global changes affect every project and the user applies them deliberately.
+- **Upstream-owned files: report, don't edit.** If `.claude/agent-setup.json` exists, the project follows https://ai.memention.net/setup. Skills it records as `skill:<name>` and files under `copied` come from upstream, and a setup refresh replaces them. For those, put findings in the report as proposed upstream changes and leave the files as they are. Everything else the setup wrote (CLAUDE.md, cards it generated) is project-local.
 - **Preserve intent.** If an instruction looks odd but you can't show it's obsolete, keep it and flag it as a question in the report instead of deleting it. User-authored constraints (e.g. "never use library X") are policy, not rot.
 - **Verify before declaring rot.** An instruction referencing a path, binary, command, or model is only stale if you checked that the referent is actually gone or renamed. Run the check (`ls`, `which`, `--help`) — don't assume.
 - If the project is a git repo, work on the current branch and leave changes uncommitted for the user to review (commit only if asked). If not a git repo, write a backup list of touched files in the report.
@@ -59,7 +60,7 @@ Fix ROT, REDUNDANT, and GAP findings in project-local files only.
 
 ## Phase 4 — Global skills review (plan only)
 
-Review `~/.claude/skills/*`, `~/.claude/CLAUDE.md` and its imports, and `~/.claude/agents/` with the same rubric, but **write no changes**. Instead produce `GLOBAL_UPDATE_PLAN_<YYYY-MM-DD>.md` in the target project root containing, per finding:
+Review `~/.claude/skills/*`, `~/.claude/CLAUDE.md` and its imports, and `~/.claude/agents/` with the same rubric, but **write no changes**. Instead produce `GLOBAL_UPDATE_PLAN_<YYYY-MM-DD>.md` in the target project root. It is about the user's machine, not the project: in a git repo, add `GLOBAL_UPDATE_PLAN_*.md` to `.git/info/exclude` (local, never committed) unless `.gitignore` already covers it, so the plan is not committed by accident. Per finding, the plan contains:
 
 - File and location
 - Finding class (ROT / REDUNDANT / GAP / QUESTION) and rationale

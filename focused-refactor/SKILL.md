@@ -82,7 +82,7 @@ Move the entity into its own module (or designate the existing one). Make the pu
 
 Four checks:
 
-1. **Phase 0 characterization tests are green.** No regression in observable behavior. If a test went red, either the refactor changed behavior (a real bug) or the test was actually white-box and your phase 0 wasn't strict enough — fix the test, not the production code, and re-establish the baseline.
+1. **Phase 0 characterization tests are green.** No regression in observable behavior. If a test went red, decide which case it is. If the refactor changed observable behavior, that is a real bug: fix the production code. If the test asserted on internals, phase 0 was not strict enough: rewrite that test at the public seam, confirm it passes against the pre-refactor code, then re-run.
 2. **Illegal transitions are rejected through the public API.** For each empty cell in the phase-2 transition table, a *new* test attempts that transition via the ADT operations and confirms the rejection. Phase 0 captured "what works"; these capture "what must fail."
 3. **Grep for old patterns.** No `entity.privateField`, no direct boolean flips, no free functions mutating the entity. The lint rule from phase 4 catches these in CI; the manual grep is for the local copy.
 4. **Try a representation swap (mentally).** If you replaced the internal storage tomorrow (array → map, struct → record), how many call sites would change? The answer should be **zero outside the module**. If it's nonzero, a leak survived; find it.

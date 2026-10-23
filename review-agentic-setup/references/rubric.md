@@ -19,6 +19,7 @@ Checks per asset type. Every check names the finding class it usually produces (
 - **AGENTS.md** — Claude Code reads it natively only when no CLAUDE.md exists in the working directory or above. If both exist and AGENTS.md holds shared content, CLAUDE.md must `@AGENTS.md` it, or that content never loads → ROT. Content duplicated in both → REDUNDANT.
 - **Routing quality** — if the project has a card index (or another routing manifest such as `AGENT_FILES/`): does every entry link to a real file, and does each name a *trigger situation* rather than a topic? Dead link or orphan card → ROT; topic-style trigger → GAP; large doc pile with no index → GAP.
 - **Eager imports of lazy docs** — an `@path` reference to a card, `CLAUDE_full.md`, or any other file meant to load on demand is an import that loads it every session → ROT: replace with a plain path or markdown link plus a "read when…" condition.
+- **Known stack** — a card that only restates a mainstream framework, library or design pattern used the standard way (how go_router works, what a singleton is) → REDUNDANT: replace it with one line in a "Known stack" section of CLAUDE.md naming the concept, its paths, and any local twist. A Known stack line that needs a paragraph to be accurate → GAP: promote it to a card. Show the user each card before deleting it.
 - **Hooks vs prose** — "always/never/before each X" behavioral rules in prose that the harness could enforce via hooks or permission settings → GAP (note it; implement only if mechanical).
 
 ## Skills (SKILL.md)
