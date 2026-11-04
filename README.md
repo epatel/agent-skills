@@ -23,6 +23,8 @@ Claude reads the `description` field in each `SKILL.md` to decide when a skill a
 | `makefile-actions` | Writes a Makefile that lists and runs the real commands of a project. |
 | `design-system` | Sets up design tokens for color, spacing, and type, with light and dark themes. |
 | `review-agentic-setup` | Reviews and updates the agent configuration of a project. |
+| `double-check` | Reviews a change for completeness, correctness, safety, and simplicity, and verifies it. |
+| `minimal-repro` | Builds a small separate program with the project's versions to reproduce a bug, test a fix, or probe an API. |
 
 ### Thinking and writing
 
