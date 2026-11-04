@@ -3,8 +3,8 @@
 
 - <skill>/SKILL.md: frontmatter `name` matches the directory, `description`
   is present and at most 1024 characters, README.md lists the skill.
-- Any file under <skill>/: if .claude/skills/<skill> holds an installed copy,
-  it must still match the source.
+- Any file under <skill>/: an installed copy in .claude/skills/<skill> or
+  ../ai-setup/.claude/skills/<skill>, if present, must still match the source.
 
 Exits 2 with the problems on stderr so Claude sees them; exits 0 otherwise.
 """
@@ -75,9 +75,10 @@ def main():
         except OSError:
             pass
 
-    copy = os.path.join(root, ".claude", "skills", skill)
-    if os.path.isdir(copy) and differs(src, copy):
-        problems.append(f".claude/skills/{skill} no longer matches {skill}/ - re-copy it")
+    for label in (".claude/skills", "../ai-setup/.claude/skills"):
+        copy = os.path.normpath(os.path.join(root, label, skill))
+        if os.path.isdir(copy) and differs(src, copy):
+            problems.append(f"{label}/{skill} no longer matches {skill}/ - re-copy it")
 
     if problems:
         print(f"{skill}: " + "; ".join(problems), file=sys.stderr)
