@@ -37,24 +37,6 @@ Example, every reachable state with a row:
 | Error        | Loading    | —       | —          | Idle  |
 | StaleError   | Refreshing | —       | —          | Idle  |
 
-```mermaid
-stateDiagram-v2
-    [*] --> Idle
-    Idle --> Loading: Fetch
-    Loading --> Loaded: Succeed
-    Loading --> Error: Fail
-    Loaded --> Refreshing: Fetch
-    Refreshing --> Loaded: Succeed
-    Refreshing --> StaleError: Fail
-    Error --> Loading: Fetch
-    StaleError --> Refreshing: Fetch
-    Loading --> Idle: Reset
-    Loaded --> Idle: Reset
-    Refreshing --> Idle: Reset
-    Error --> Idle: Reset
-    StaleError --> Idle: Reset
-```
-
 ## Rules
 
 - **Only `transition` changes state.** No other code writes the field.
