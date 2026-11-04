@@ -1,8 +1,10 @@
 {
   "source": "https://ai.memention.net/setup",
-  "version": "2026-10-16",
-  "updated": "2026-10-16",
-  "applied": [],
-  "declined": [],
-  "copied": {}
+  "version": "2026-11-04",
+  "updated": "2026-11-04",
+  "applied": ["hooks-over-prose", "standing-defaults", "skill:review-agentic-setup"],
+  "declined": ["context-cards", "known-stack", "feature-first", "feature-first-advanced", "two-tier", "project-plan"],
+  "copied": {
+    "cards/standing-defaults.md": { "pattern": "standing-defaults", "sha256": "c881fcdbb289e30e50344d85b93688923e2c230378c5425af2bbfe62459494f4" }
+  }
 }
