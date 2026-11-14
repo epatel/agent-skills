@@ -42,11 +42,12 @@ Install skills per project. A project skill lives in `.claude/skills/` inside th
    ```sh
    REPO=https://github.com/epatel/agent-skills.git
    TAG=$(git ls-remote --tags --refs "$REPO" | sed 's|.*/||' | sort -V | tail -1)
-   SRC=$(mktemp -d); trap 'rm -rf "$SRC"' EXIT
+   SRC=$(mktemp -d) && echo "clone in $SRC"
    # An annotated tag makes git print "... is not a commit!"; that warning is harmless.
    git -c advice.detachedHead=false clone -q --depth 1 --branch "$TAG" "$REPO" "$SRC" && echo "agent-skills $TAG"
    mkdir -p .claude/skills
    cp -R "$SRC/focused-refactor" .claude/skills/
+   rm -rf "$SRC"        # when every skill you need is copied
    ```
 3. Commit `.claude/skills/`.
 4. Use the skill. Skills live-reload, so the running session sees it. If `.claude/skills/` did not exist when the session started, run `/reload-skills` first.
