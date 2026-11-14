@@ -38,10 +38,12 @@ Claude reads the `description` field in each `SKILL.md` to decide when a skill a
 Install skills per project. A project skill lives in `.claude/skills/` inside the repository and is committed with it. Then every collaborator, worktree, and fresh clone gets the same version, and the skill triggers only in projects where it applies.
 
 1. Go to the root of the project.
-2. Copy the skills that the project needs.
+2. Copy the skills that the project needs from the latest release. Releases are tagged `vYYYY.MM.DD`, with `.2`, `.3` for later releases the same day. `main` may hold unreleased changes.
    ```sh
-   SRC=$(mktemp -d)
-   git clone --depth 1 https://github.com/epatel/agent-skills.git "$SRC"
+   REPO=https://github.com/epatel/agent-skills.git
+   TAG=$(git ls-remote --tags --refs "$REPO" | sed 's|.*/||' | sort -V | tail -1)
+   SRC=$(mktemp -d); trap 'rm -rf "$SRC"' EXIT
+   git clone -q --depth 1 --branch "$TAG" "$REPO" "$SRC" && echo "agent-skills $TAG"
    mkdir -p .claude/skills
    cp -R "$SRC/focused-refactor" .claude/skills/
    ```
@@ -50,7 +52,7 @@ Install skills per project. A project skill lives in `.claude/skills/` inside th
 
 Copy, do not link. A link points into your home directory and breaks for collaborators and fresh clones. Install only the skills that match the work of the project. Each installed skill puts its description into every session of that project.
 
-The setup at https://ai.memention.net/setup does these steps for you and records each skill as `skill:<name>` so that a later refresh can update it.
+The setup at https://ai.memention.net/setup does these steps for you. It records each skill as `skill:<name>`, and the release as `skills_release`, so that a later refresh can update them.
 
 A personal install in `~/.claude/skills/` loads the skill in every project on the machine and is not shared. Use it only for a skill that you want everywhere and that no collaborator needs.
 

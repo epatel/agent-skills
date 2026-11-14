@@ -1,6 +1,6 @@
 {
   "source": "https://ai.memention.net/setup",
-  "version": "2026-11-14.3",
+  "version": "2026-11-14.4",
   "updated": "2026-11-14",
   "applied": [
     "hooks-over-prose",
@@ -21,6 +21,7 @@
       "sha256": "8539dbdf33ba63de33d1af1f02f6bbfd53d92178ccfbf26b1a88a20e886f7b8a"
     }
   },
+  "skills_release": "v2026.11.14",
   "tools": {
     "python": {
       "pattern": "hooks-over-prose",

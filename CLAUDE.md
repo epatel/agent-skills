@@ -13,6 +13,7 @@ Claude Code skills (one directory per skill, `SKILL.md` + optional `references/`
 - `.claude/skills/review-agentic-setup` is this project's installed copy: re-copy it after changing `review-agentic-setup/`.
 - Diagrams in skills are mermaid, never ASCII.
 - A change to a skill that a project with a copied version should act on needs an `Affects: skill:<name>` item in `../ai-setup/site/cards/setup-changelog.md` (with a version bump in `site/setup`). Otherwise refresh mode never tells those projects to re-copy it.
+- Projects copy skills from the latest **release tag**, not `main`. After such a change, tag a release, `vYYYY.MM.DD` (`.2`, `.3` for later releases the same day), and name it in the changelog item. Push the tag before publishing the setup that names it. Tag only commits on `main`, and never move or delete a published tag; a fix gets a new tag.
 - Claims about how Claude Code loads skills or settings must match `../ai-setup/cards/claude-code-loading.md`.
 
 ## Cards
