@@ -64,4 +64,4 @@ A personal install in `~/.claude/skills/` loads the skill in every project on th
 
 ## License
 
-No license file yet. Ask before you reuse this material.
+MIT. See [LICENSE](LICENSE). `ste-writing` is adapted from another MIT-licensed work and keeps that notice in `ste-writing/LICENSE.txt`.

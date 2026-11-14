@@ -5,7 +5,7 @@ Claude Code skills (one directory per skill, `SKILL.md` + optional `references/`
 ## Commands
 
 - Check agent docs: `python3 -I ../ai-setup/site/cards/check-agent-docs.py .`
-- Smoke-test `project-discovery` (creates a venv in the user cache on first run): follow the "How to run" block in `project-discovery/SKILL.md` with `<ROOT>` = `.`
+- Smoke-test `project-discovery` (asks, then creates `.venv-tools/project-discovery/` in this repo on first run; gitignored): follow the "How to run" steps in `project-discovery/SKILL.md` with `<ROOT>` = `.`
 
 ## Rules
 
